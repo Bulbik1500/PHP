@@ -1,16 +1,30 @@
-<?php 
+<?php
 // jezeli sie nie powtarzaja to "(" a jezeli sie powtarzają to ")
-$word = "din";
+$word = "(( @";
 $word = strtolower($word);
 $word = str_split($word);
-$count = count($word);
-$unique = [];
-
-    for ($i = 0; $i < $count - 1; $i++) {
-        $x = $word[$i + 1];
-        if ($word[$i] != $x) {
-            array_push($unique, $word[$i]);
+$unique = array();
+//add to asoc array chars as key, number as values  
+$value = 0;
+foreach ($word as $char) {
+    $unique[$char] = $value;
+}
+//checking wcit value is repeting.
+foreach ($unique as $key => $keyvalue) {
+    foreach ($word as $tocheck) {
+        if ($key == $tocheck) {
+            $unique[$key] = $value++;
         }
     }
-    array_push($unique, $word[$count - 1]);
-    print_r($unique);
+    $value = 0;
+}
+//cheking wich char is repeting and concatenation ),(
+$toreturn = "";
+foreach ($word as $check) {
+    if ($unique[$check] > 0) {
+        $toreturn .= ")";
+    } else {
+        $toreturn .= "(";
+    }
+}
+echo $toreturn;
